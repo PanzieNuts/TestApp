@@ -37,9 +37,10 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+
 
 const router = useRouter()
 
@@ -54,7 +55,6 @@ function logout() {
       console.error("Logout failed", err);
     });
 }
-
 
 </script>
 
