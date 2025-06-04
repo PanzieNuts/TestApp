@@ -18,8 +18,8 @@
     <v-col cols="3" style="display: flex; justify-content: flex-end; align-items: center">
       <v-row>
         <v-text-field placeholder="Search" class="mr-3" variant flat density="compact" style="background-color: #e7edf4; border-radius: 15px" hide-details prepend-inner-icon="mdi-magnify"/>
-        <v-btn class="mr-3" color="#248bf3" style="border-radius: 10px; text-transform: none;"> Sign Up </v-btn>
-        <v-btn class="mr-3" color="#e7edf4" style="border-radius: 10px; text-transform: none;"> Log in </v-btn>
+        <!-- <v-btn class="mr-3" color="#248bf3" style="border-radius: 10px; text-transform: none;"> Sign Up </v-btn> -->
+        <v-btn class="mr-3" color="red" style="border-radius: 10px; text-transform: none;" @click="logout()"> Log Out </v-btn>
       </v-row>
     </v-col>
   </div>
@@ -38,6 +38,15 @@
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+function logout() {
+  localStorage.removeItem('token')
+  sessionStorage.clear() 
+  router.push('/login')
+}
 </script>
 
 <style>

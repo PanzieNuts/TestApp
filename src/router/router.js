@@ -5,7 +5,7 @@ import Login from '../components/login.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/login'  // 👈 default route goes to login
+    redirect: '/login'
   },
   {
     path: '/home',
@@ -23,5 +23,14 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
+
+// router.beforeEach((to, from, next) => {
+//   const token = localStorage.getItem('token')
+//   if (to.name !== 'login' && !token) {
+//     next({ name: 'login' })
+//   } else {
+//     next()
+//   }
+// })
 
 export default router
