@@ -39,14 +39,23 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const router = useRouter()
 
 function logout() {
-  localStorage.removeItem('token')
-  sessionStorage.clear() 
-  router.push('/login')
+  axios.get("http://localhost:8080/api/logout", { withCredentials: true })
+    .then(() => {
+      // Clear any stored auth token from localStorage (if used earlier)
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    })
+    .catch(err => {
+      console.error("Logout failed", err);
+    });
 }
+
+
 </script>
 
 <style>

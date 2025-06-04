@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../components/Home.vue'
 import Login from '../components/login.vue'
+import axios from 'axios'
 
 const routes = [
   {
@@ -17,20 +18,26 @@ const routes = [
     name: 'Login',
     component: Login
   },
+  {
+    path: '/auth/callback',
+    name: 'AuthCallback',
+    component: {
+      template: `<div>Logging in...</div>`,
+      async created() {
+        try {
+          await axios.get("http://localhost:8080/api/protected", { withCredentials: true })
+          this.$router.push('/home')
+        } catch (err) {
+          this.$router.push('/login')
+        }
+      }
+    }
+  }
 ]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
-
-// router.beforeEach((to, from, next) => {
-//   const token = localStorage.getItem('token')
-//   if (to.name !== 'login' && !token) {
-//     next({ name: 'login' })
-//   } else {
-//     next()
-//   }
-// })
 
 export default router
