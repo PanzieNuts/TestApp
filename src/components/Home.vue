@@ -17,8 +17,7 @@
     </v-col>
     <v-col cols="3" style="display: flex; justify-content: flex-end; align-items: center">
       <v-row>
-        <v-text-field placeholder="Search" class="mr-3" variant flat density="compact" style="background-color: #e7edf4; border-radius: 15px" hide-details prepend-inner-icon="mdi-magnify"/>
-        <!-- <v-btn class="mr-3" color="#248bf3" style="border-radius: 10px; text-transform: none;"> Sign Up </v-btn> -->
+        <v-text-field placeholder="Search" class="mr-3" flat density="compact" style="background-color: #e7edf4; border-radius: 15px" hide-details prepend-inner-icon="mdi-magnify"/>
         <v-btn class="mr-3" color="red" style="border-radius: 10px; text-transform: none;" @click="logout()"> Log Out </v-btn>
       </v-row>
     </v-col>
@@ -37,26 +36,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
-
 const router = useRouter()
 
-function logout() {
-  axios.get("http://localhost:8080/api/logout", { withCredentials: true })
+
+
+const logout = async () => {
+  await axios.get("http://localhost:8080/api/logout", { withCredentials: true })
     .then(() => {
-      // Clear any stored auth token from localStorage (if used earlier)
       localStorage.removeItem("token");
-      window.location.href = "/login";
+      router.push("/login");
     })
     .catch(err => {
       console.error("Logout failed", err);
     });
 }
 
+onMounted( async() => {
+  await axios.get('http://localhost:8080/api/protected', { withCredentials: true })
+    .then(() => {
+      console.log("User is authenticated")
+    })
+    .catch(() => {
+      router.push('/login')
+    });
+});
+
 </script>
+
+
 
 <style>
 a {
